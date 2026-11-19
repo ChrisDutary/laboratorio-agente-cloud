@@ -1,6 +1,12 @@
 CATEGORIA_POR_DEFECTO = "general"
 
 
+def _siguiente_id(tareas):
+    # Se usa el ID más alto + 1 (y no len + 1) para no repetir IDs
+    # cuando se ha eliminado alguna tarea de la lista.
+    return max((t["id"] for t in tareas), default=0) + 1
+
+
 def agregar_tarea(tareas, titulo, categoria=CATEGORIA_POR_DEFECTO):
     titulo = titulo.strip()
     if not titulo:
@@ -9,7 +15,7 @@ def agregar_tarea(tareas, titulo, categoria=CATEGORIA_POR_DEFECTO):
     if not categoria:
         raise ValueError("La categoría es obligatoria")
     tarea = {
-        "id": len(tareas) + 1,
+        "id": _siguiente_id(tareas),
         "titulo": titulo,
         "categoria": categoria,
         "completada": False,
@@ -38,3 +44,10 @@ def pendientes(tareas, categoria=None):
         for t in resultado
         if t.get("categoria", CATEGORIA_POR_DEFECTO).casefold() == buscada
     ]
+
+
+def eliminar_tarea(tareas, tarea_id):
+    for indice, tarea in enumerate(tareas):
+        if tarea["id"] == tarea_id:
+            return tareas.pop(indice)
+    raise ValueError("Tarea no encontrada")
