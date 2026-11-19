@@ -31,6 +31,8 @@ def pendientes(tareas, categoria=None):
     if categoria is None:
         return resultado
     buscada = categoria.strip().casefold()
+    if not buscada:
+        raise ValueError("La categoría es obligatoria")
     return [
         t
         for t in resultado
