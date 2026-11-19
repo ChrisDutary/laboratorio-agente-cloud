@@ -1,4 +1,4 @@
-from tasks import agregar_tarea, completar_tarea, pendientes
+from tasks import agregar_tarea, completar_tarea, eliminar_tarea, pendientes
 
 tareas = []
 agregar_tarea(tareas, "Estudiar agentes cloud", "Estudio")
@@ -12,4 +12,11 @@ for tarea in pendientes(tareas):
 
 print("Pendientes de la categoría 'ESTUDIO':")
 for tarea in pendientes(tareas, "ESTUDIO"):
+    print(f'- {tarea["id"]}: {tarea["titulo"]} [{tarea["categoria"]}]')
+
+eliminada = eliminar_tarea(tareas, 2)
+print(f'Tarea eliminada: {eliminada["id"]}: {eliminada["titulo"]}')
+
+print("Pendientes tras eliminar:")
+for tarea in pendientes(tareas):
     print(f'- {tarea["id"]}: {tarea["titulo"]} [{tarea["categoria"]}]')
